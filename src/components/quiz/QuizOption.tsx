@@ -6,17 +6,17 @@ interface QuizOptionProps {
   label: string;
   text: string;
   selected: boolean;
-  onClick: () => void;
+  onSelect: () => void; // Changed from onClick to onSelect
 }
 
-const QuizOption: React.FC<QuizOptionProps> = ({ label, text, selected, onClick }) => {
+const QuizOption: React.FC<QuizOptionProps> = ({ label, text, selected, onSelect }) => {
   return (
     <div 
       className={cn(
         "card-pastel bg-white p-6 cursor-pointer transition-all duration-300 shadow hover:shadow-md",
         selected && "option-selected"
       )}
-      onClick={onClick}
+      onClick={onSelect} // Changed to use the onSelect prop
     >
       <div className="flex items-start gap-4">
         <div className="flex-shrink-0">

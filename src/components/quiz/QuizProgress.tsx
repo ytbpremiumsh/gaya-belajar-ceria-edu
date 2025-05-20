@@ -5,11 +5,10 @@ import { Progress } from '@/components/ui/progress';
 interface QuizProgressProps {
   currentQuestion: number;
   totalQuestions: number;
+  progress: number; // Added progress prop
 }
 
-const QuizProgress: React.FC<QuizProgressProps> = ({ currentQuestion, totalQuestions }) => {
-  const progress = (currentQuestion / totalQuestions) * 100;
-  
+const QuizProgress: React.FC<QuizProgressProps> = ({ currentQuestion, totalQuestions, progress }) => {
   return (
     <div className="w-full mb-8">
       <div className="flex justify-between items-center mb-2">
