@@ -73,7 +73,7 @@ const ResultSummary: React.FC<ResultSummaryProps> = ({ result, onTryAgain, onDow
           Berdasarkan jawaban kamu, gaya belajar dominan kamu adalah:
         </p>
       </div>
-      
+      <ResultChart result={result} />
       {/* Main Section */}
       <div className="grid grid-cols-1 gap-8 mb-10">
         {/* Dominant Learning Style */}
