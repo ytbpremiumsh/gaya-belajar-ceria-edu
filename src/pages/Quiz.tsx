@@ -1,128 +1,122 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
-import { QuizResult } from '@/types';
 import { quizQuestions } from '@/data/quizQuestions';
 import QuizOption from '@/components/quiz/QuizOption';
 import QuizProgress from '@/components/quiz/QuizProgress';
-import { calculateResult } from '@/utils/calculateResult';
+import { calculateResult, AnswerMap } from '@/utils/calculateResult';
 
 const Quiz = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [currentQuestion, setCurrentQuestion] = useState(1);
+  const [answers, setAnswers] = useState<AnswerMap>({});
+  const [selectedOption, setSelectedOption] = useState<'a' | 'b' | 'c' | null>(null);
   
-  const currentQuestion = quizQuestions[currentQuestionIndex];
-  const isLastQuestion = currentQuestionIndex === quizQuestions.length - 1;
+  const question = quizQuestions.find(q => q.id === currentQuestion);
   
-  const handleOptionSelect = (option: string) => {
+  const totalQuestions = quizQuestions.length;
+  const progress = (currentQuestion / totalQuestions) * 100;
+  
+  const handleOptionSelect = (option: 'a' | 'b' | 'c') => {
     setSelectedOption(option);
   };
   
-  const handleNext = () => {
+  const handleNextQuestion = () => {
     if (!selectedOption) {
       toast({
         title: "Pilih jawaban",
-        description: "Silakan pilih salah satu jawaban untuk melanjutkan.",
+        description: "Silahkan pilih salah satu jawaban untuk melanjutkan.",
         variant: "destructive"
       });
       return;
     }
     
-    // Save answer
+    // Save the answer
     setAnswers(prev => ({
       ...prev,
-      [currentQuestion.id]: selectedOption
+      [currentQuestion]: selectedOption
     }));
     
-    if (isLastQuestion) {
-      // Calculate and navigate to results
-      const result = calculateResult(
-        answers,
-        quizQuestions
-      );
-      
-      navigate('/result', { 
-        state: { 
-          result: {
-            ...result,
-            // Include the last question's answer that hasn't been saved yet
-            [currentQuestion.scores[selectedOption as keyof typeof currentQuestion.scores]]: 
-              result[currentQuestion.scores[selectedOption as keyof typeof currentQuestion.scores] as keyof QuizResult] + 1
-          }
-        } 
-      });
-      return;
+    // Move to next question or finish quiz
+    if (currentQuestion < totalQuestions) {
+      setCurrentQuestion(prev => prev + 1);
+      setSelectedOption(null);
+    } else {
+      // Calculate result and navigate to result page
+      const result = calculateResult(answers, quizQuestions);
+      navigate('/result', { state: { result } });
     }
-    
-    // Move to next question
-    setSelectedOption(null);
-    setCurrentQuestionIndex(prev => prev + 1);
   };
   
-  const handlePrev = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(prev => prev - 1);
-      // Restore previous answer
-      const prevQuestionId = quizQuestions[currentQuestionIndex - 1].id;
-      setSelectedOption(answers[prevQuestionId] || null);
+  const handlePrevQuestion = () => {
+    if (currentQuestion > 1) {
+      setCurrentQuestion(prev => prev - 1);
+      setSelectedOption(answers[currentQuestion - 1] || null);
     }
   };
+  
+  useEffect(() => {
+    // If there's an answer already for this question, select it
+    if (answers[currentQuestion]) {
+      setSelectedOption(answers[currentQuestion]);
+    } else {
+      setSelectedOption(null);
+    }
+  }, [currentQuestion, answers]);
+  
+  if (!question) {
+    return <div>Loading...</div>;
+  }
   
   return (
     <div className="max-w-3xl mx-auto animate-fade-in">
-      <h1 className="text-3xl font-bold text-center mb-8">Tes Gaya Belajar</h1>
+      <QuizProgress progress={progress} currentQuestion={currentQuestion} totalQuestions={totalQuestions} />
       
-      <QuizProgress 
-        currentQuestion={currentQuestionIndex + 1} 
-        totalQuestions={quizQuestions.length} 
-      />
-      
-      <Card className="mb-6">
-        <CardContent className="pt-6">
-          <h2 className="text-xl font-semibold mb-6">
-            {currentQuestion.question}
-          </h2>
-          
-          <div className="space-y-4">
-            <QuizOption 
-              label="A" 
-              text={currentQuestion.options.a} 
-              selected={selectedOption === 'a'} 
-              onClick={() => handleOptionSelect('a')} 
-            />
-            <QuizOption 
-              label="B" 
-              text={currentQuestion.options.b} 
-              selected={selectedOption === 'b'} 
-              onClick={() => handleOptionSelect('b')} 
-            />
-            <QuizOption 
-              label="C" 
-              text={currentQuestion.options.c} 
-              selected={selectedOption === 'c'} 
-              onClick={() => handleOptionSelect('c')} 
-            />
-          </div>
-        </CardContent>
-      </Card>
-      
-      <div className="flex justify-between">
-        <Button 
-          variant="outline" 
-          onClick={handlePrev} 
-          disabled={currentQuestionIndex === 0}
-        >
-          Sebelumnya
-        </Button>
-        <Button onClick={handleNext}>
-          {isLastQuestion ? 'Selesai' : 'Selanjutnya'}
-        </Button>
+      <div className="bg-white rounded-xl shadow-md p-6 md:p-8 my-8">
+        <h2 className="text-xl md:text-2xl font-semibold mb-6">
+          {question.question}
+        </h2>
+        
+        <div className="space-y-4 mb-8">
+          <QuizOption
+            selected={selectedOption === 'a'}
+            onSelect={() => handleOptionSelect('a')}
+            label="A"
+            text={question.options.a}
+          />
+          <QuizOption
+            selected={selectedOption === 'b'}
+            onSelect={() => handleOptionSelect('b')}
+            label="B"
+            text={question.options.b}
+          />
+          <QuizOption
+            selected={selectedOption === 'c'}
+            onSelect={() => handleOptionSelect('c')}
+            label="C"
+            text={question.options.c}
+          />
+        </div>
+        
+        <div className="flex justify-between">
+          <Button 
+            variant="outline"
+            onClick={handlePrevQuestion}
+            disabled={currentQuestion === 1}
+            className="border-primary/20 hover:border-primary/50 transition-all duration-300"
+          >
+            Sebelumnya
+          </Button>
+          <Button 
+            onClick={handleNextQuestion}
+            className="bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-all duration-300"
+          >
+            {currentQuestion === totalQuestions ? 'Lihat Hasil' : 'Selanjutnya'}
+          </Button>
+        </div>
       </div>
     </div>
   );

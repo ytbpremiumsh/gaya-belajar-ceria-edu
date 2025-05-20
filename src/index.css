@@ -44,10 +44,21 @@
 
   body {
     @apply bg-background text-foreground font-poppins;
+    background-image: linear-gradient(109.6deg, rgba(223,234,247,1) 11.2%, rgba(244,248,252,1) 91.1%);
+    background-size: cover;
+    background-attachment: fixed;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-poppins font-semibold tracking-tight;
+  }
+  
+  h1 {
+    @apply leading-tight;
+  }
+  
+  h2, h3 {
+    @apply leading-snug;
   }
 
   .card-pastel {
@@ -55,30 +66,75 @@
   }
 
   .card-visual {
-    @apply bg-pastel-blue/30 border-pastel-blue border;
+    @apply bg-gradient-to-br from-pastel-blue/30 to-pastel-blue/10 border-pastel-blue border;
   }
 
   .card-auditory {
-    @apply bg-pastel-lavender/30 border-pastel-lavender border;
+    @apply bg-gradient-to-br from-pastel-lavender/30 to-pastel-lavender/10 border-pastel-lavender border;
   }
 
   .card-kinesthetic {
-    @apply bg-pastel-peach/30 border-pastel-peach border;
+    @apply bg-gradient-to-br from-pastel-peach/30 to-pastel-peach/10 border-pastel-peach border;
   }
 
   .btn-visual {
-    @apply bg-pastel-blue text-blue-900 hover:bg-pastel-blue/80;
+    @apply bg-gradient-to-r from-pastel-blue to-blue-300 text-blue-900 hover:opacity-90;
   }
   
   .btn-auditory {
-    @apply bg-pastel-lavender text-purple-900 hover:bg-pastel-lavender/80;
+    @apply bg-gradient-to-r from-pastel-lavender to-purple-300 text-purple-900 hover:opacity-90;
   }
   
   .btn-kinesthetic {
-    @apply bg-pastel-peach text-orange-900 hover:bg-pastel-peach/80;
+    @apply bg-gradient-to-r from-pastel-peach to-orange-200 text-orange-900 hover:opacity-90;
   }
 
   .option-selected {
     @apply ring-4 ring-primary/50 transform scale-[1.02];
   }
+  
+  /* Animation utilities */
+  .hover-grow {
+    @apply transition-all duration-300 hover:scale-105;
+  }
+  
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-1;
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-float-delay {
+    animation: float 8s ease-in-out 2s infinite;
+  }
+  
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+  }
+  
+  .blurred-circle {
+    @apply absolute rounded-full opacity-70 blur-3xl;
+    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+    z-index: -1;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.bg-frosted-glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }

@@ -1,7 +1,7 @@
 
 import { LearningStyle, QuizResult } from '../types';
 
-type AnswerMap = Record<number, keyof { a: string; b: string; c: string }>;
+export type AnswerMap = Record<number, 'a' | 'b' | 'c'>;
 
 export const calculateResult = (answers: AnswerMap, questions: any[]): QuizResult => {
   const results = {
