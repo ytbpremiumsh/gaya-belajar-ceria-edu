@@ -5,6 +5,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { QuizResult } from '@/types';
 import ResultSummary from '@/components/result/ResultSummary';
 import { generatePdf } from '@/utils/generatePdf';
+import AdSense from '@/components/ads/AdSense';
 
 const Result = () => {
   const location = useLocation();
@@ -51,9 +52,15 @@ const Result = () => {
   
   return (
     <div className="w-full py-6 animate-fade-in">
+      {/* Decorative elements */}
       <div className="absolute top-20 right-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl -z-10"></div>
       <div className="absolute bottom-20 left-10 w-60 h-60 bg-accent/10 rounded-full blur-3xl -z-10"></div>
+      <div className="absolute top-1/3 left-1/4 w-32 h-32 bg-pastel-blue/15 rounded-full blur-2xl -z-10"></div>
       
+      {/* Top AdSense */}
+      <AdSense adSlot="2678731669" />
+      
+      {/* Result Content */}
       <ResultSummary 
         result={result} 
         onTryAgain={handleTryAgain} 

@@ -63,56 +63,63 @@ const ResultChart: React.FC<ResultChartProps> = ({ result }) => {
   };
 
   return (
-    <div className="w-full h-64">
-      <h3 className="text-xl font-semibold mb-4">Distribusi Gaya Belajar</h3>
-      <ChartContainer config={config}>
-        <BarChart 
-          data={data} 
-          layout="vertical"
-          margin={{ top: 5, right: 30, left: 80, bottom: 5 }}
-        >
-          <XAxis 
-            type="number"
-            domain={[0, 100]}
-            tickCount={5}
-            axisLine={false}
-            tickLine={false}
-            tick={{ fontSize: 12, fill: '#666' }}
-          />
-          <YAxis 
-            dataKey="name"
-            type="category"
-            axisLine={false}
-            tickLine={false}
-            tick={{ fontSize: 14, fill: '#666', fontWeight: 500 }}
-            width={80}
-          />
-          <Tooltip 
-            content={<ChartTooltipContent />}
-            cursor={{ fill: 'rgba(0,0,0,0.05)' }}
-          />
-          <Bar 
-            dataKey="value" 
-            radius={[0, 4, 4, 0]}
-            barSize={30}
-          >
-            {data.map((entry, index) => (
-              <Cell 
-                key={`cell-${index}`} 
-                fill={entry.color}
-                style={{ filter: 'drop-shadow(0 2px 2px rgba(0,0,0,0.1))' }}
-                className="hover:opacity-80 transition-opacity duration-300"
-              />
-            ))}
-            <LabelList 
-              dataKey="value" 
-              position="right" 
-              formatter={(value: number) => `${value}%`}
-              style={{ fontWeight: 'bold', fill: '#333' }}
-            />
-          </Bar>
-        </BarChart>
-      </ChartContainer>
+    <div className="w-full">
+      <h3 className="text-xl font-semibold mb-6">Distribusi Gaya Belajar</h3>
+      <div className="bg-white/50 p-4 rounded-xl shadow-sm backdrop-blur-sm">
+        <div className="h-64">
+          <ChartContainer config={config}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart 
+                data={data} 
+                layout="vertical"
+                margin={{ top: 5, right: 30, left: 80, bottom: 5 }}
+              >
+                <XAxis 
+                  type="number"
+                  domain={[0, 100]}
+                  tickCount={5}
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fontSize: 12, fill: '#666' }}
+                />
+                <YAxis 
+                  dataKey="name"
+                  type="category"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fontSize: 14, fill: '#666', fontWeight: 500 }}
+                  width={80}
+                />
+                <Tooltip 
+                  content={<ChartTooltipContent />}
+                  cursor={{ fill: 'rgba(0,0,0,0.05)' }}
+                />
+                <Bar 
+                  dataKey="value" 
+                  radius={[0, 4, 4, 0]}
+                  barSize={30}
+                  animationDuration={1000}
+                >
+                  {data.map((entry, index) => (
+                    <Cell 
+                      key={`cell-${index}`} 
+                      fill={entry.color}
+                      style={{ filter: 'drop-shadow(0 2px 2px rgba(0,0,0,0.1))' }}
+                      className="hover:opacity-80 transition-opacity duration-300"
+                    />
+                  ))}
+                  <LabelList 
+                    dataKey="value" 
+                    position="right" 
+                    formatter={(value: number) => `${value}%`}
+                    style={{ fontWeight: 'bold', fill: '#333' }}
+                  />
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </ChartContainer>
+        </div>
+      </div>
     </div>
   );
 };
