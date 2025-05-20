@@ -17,6 +17,7 @@ import {
   Cell,
   LabelList
 } from 'recharts';
+import { Progress } from '@/components/ui/progress';
 
 interface ResultChartProps {
   result: QuizResult;
@@ -64,60 +65,27 @@ const ResultChart: React.FC<ResultChartProps> = ({ result }) => {
 
   return (
     <div className="w-full">
-      <h3 className="text-xl font-semibold mb-6">Distribusi Gaya Belajar</h3>
+      <h3 className="text-xl font-semibold mb-4">Distribusi Gaya Belajar</h3>
       <div className="bg-white/50 p-4 rounded-xl shadow-sm backdrop-blur-sm">
-        <div className="h-64">
-          <ChartContainer config={config}>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart 
-                data={data} 
-                layout="vertical"
-                margin={{ top: 5, right: 30, left: 80, bottom: 5 }}
-              >
-                <XAxis 
-                  type="number"
-                  domain={[0, 100]}
-                  tickCount={5}
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fontSize: 12, fill: '#666' }}
-                />
-                <YAxis 
-                  dataKey="name"
-                  type="category"
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fontSize: 14, fill: '#666', fontWeight: 500 }}
-                  width={80}
-                />
-                <Tooltip 
-                  content={<ChartTooltipContent />}
-                  cursor={{ fill: 'rgba(0,0,0,0.05)' }}
-                />
-                <Bar 
-                  dataKey="value" 
-                  radius={[0, 4, 4, 0]}
-                  barSize={30}
-                  animationDuration={1000}
+        <div className="space-y-3">
+          {data.map((item) => (
+            <div key={item.name} className="flex items-center gap-3">
+              <div className="min-w-[80px] text-sm font-medium">{item.name}</div>
+              <div className="flex-1">
+                <Progress 
+                  className="h-2.5" 
+                  value={item.value} 
+                  style={{
+                    backgroundColor: `${item.color}30`,
+                    ['--tw-bg-opacity' as any]: '0.3'
+                  }}
                 >
-                  {data.map((entry, index) => (
-                    <Cell 
-                      key={`cell-${index}`} 
-                      fill={entry.color}
-                      style={{ filter: 'drop-shadow(0 2px 2px rgba(0,0,0,0.1))' }}
-                      className="hover:opacity-80 transition-opacity duration-300"
-                    />
-                  ))}
-                  <LabelList 
-                    dataKey="value" 
-                    position="right" 
-                    formatter={(value: number) => `${value}%`}
-                    style={{ fontWeight: 'bold', fill: '#333' }}
-                  />
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </ChartContainer>
+                  <div className="h-full bg-opacity-70" style={{ backgroundColor: item.color }}></div>
+                </Progress>
+              </div>
+              <div className="min-w-[36px] text-right font-semibold">{item.value}%</div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

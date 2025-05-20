@@ -52,6 +52,15 @@ const ResultSummary: React.FC<ResultSummaryProps> = ({ result, onTryAgain, onDow
     }
   };
 
+  const getStyleBorderClass = (style: string) => {
+    switch (style) {
+      case 'visual': return 'border-pastel-blue';
+      case 'auditory': return 'border-pastel-lavender';
+      case 'kinesthetic': return 'border-pastel-peach';
+      default: return 'border-gray-300';
+    }
+  };
+
   return (
     <div className="w-full max-w-4xl mx-auto animate-fade-in">
       {/* Header Section */}
@@ -87,35 +96,60 @@ const ResultSummary: React.FC<ResultSummaryProps> = ({ result, onTryAgain, onDow
               <h3 className="text-xl font-semibold mb-6">Gaya Belajar Sekunder</h3>
               <div className="space-y-6">
                 {secondaryStyles.map(([style, percent]) => (
-                  <Card key={style} className="overflow-hidden border-0 shadow-md hover:shadow-lg transition-all duration-300">
+                  <Card 
+                    key={style} 
+                    className="overflow-hidden border-0 shadow-md hover:shadow-lg transition-all duration-300"
+                  >
                     <CardContent className="p-5">
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center gap-3">
                           <div className={`w-3 h-10 rounded-full ${getStyleColorClass(style)}`}></div>
-                          <h4 className="font-medium text-lg">{learningStyles[style as any].title}</h4>
+                          <h4 className="font-medium text-lg">{learningStyles[style as keyof typeof learningStyles].title}</h4>
                         </div>
                         <span className="font-semibold text-lg">{percent}%</span>
                       </div>
                       
-                      <Progress className="h-3 mb-4" value={percent} />
+                      <Progress 
+                        className="h-2.5 mb-4" 
+                        value={percent} 
+                        style={{
+                          backgroundColor: `${style === 'visual' ? '#A7C7E7' : style === 'auditory' ? '#E6E6FA' : '#FFD8BE'}30`,
+                          ['--tw-bg-opacity' as any]: '0.3'
+                        }}
+                      />
                       
-                      <p className="text-sm text-muted-foreground">
-                        {learningStyles[style as any].description.split('.')[0] + '.'}
+                      <p className="text-sm text-muted-foreground mb-4">
+                        {learningStyles[style as keyof typeof learningStyles].description}
                       </p>
                       
-                      <div className="mt-4 grid grid-cols-1 gap-2">
-                        <div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div className={`border-l-2 ${getStyleBorderClass(style)} pl-3`}>
                           <h5 className="text-sm font-medium mb-2">Karakteristik Utama:</h5>
-                          <p className="text-sm text-muted-foreground">
-                            {learningStyles[style as any].traits[0]}
-                          </p>
+                          <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                            {learningStyles[style as keyof typeof learningStyles].traits.slice(0, 3).map((trait, idx) => (
+                              <li key={idx} className="text-sm">{trait}</li>
+                            ))}
+                          </ul>
                         </div>
-                        <div>
+                        <div className={`border-l-2 ${getStyleBorderClass(style)} pl-3`}>
                           <h5 className="text-sm font-medium mb-2">Rekomendasi Belajar:</h5>
-                          <p className="text-sm text-muted-foreground">
-                            {learningStyles[style as any].strategies[0]}
-                          </p>
+                          <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                            {learningStyles[style as keyof typeof learningStyles].strategies.slice(0, 3).map((strategy, idx) => (
+                              <li key={idx} className="text-sm">{strategy}</li>
+                            ))}
+                          </ul>
                         </div>
+                      </div>
+                      
+                      <div className="mt-4 pt-3 border-t border-gray-100">
+                        <Link 
+                          to="/insight" 
+                          className={`text-sm font-medium underline underline-offset-4 hover:opacity-80 transition-opacity
+                            ${style === 'visual' ? 'text-blue-600' : 
+                              style === 'auditory' ? 'text-purple-600' : 'text-orange-600'}`}
+                        >
+                          Lihat detail gaya belajar {learningStyles[style as keyof typeof learningStyles].title}
+                        </Link>
                       </div>
                     </CardContent>
                   </Card>

@@ -16,41 +16,37 @@ const AdSense: React.FC<AdSenseProps> = ({
 }) => {
   useEffect(() => {
     try {
-      // Push ads when component mounts
+      // Push ads when component mounts or updates
       const pushAd = () => {
-        const adsbygoogle = (window as any).adsbygoogle || [];
-        adsbygoogle.push({});
+        if ((window as any).adsbygoogle) {
+          try {
+            (window as any).adsbygoogle.push({});
+          } catch (e) {
+            console.error('AdSense push error:', e);
+          }
+        }
       };
 
-      // Only push if adsbygoogle is available
+      // Call pushAd once - if adsbygoogle is available
       if ((window as any).adsbygoogle) {
         pushAd();
       } else {
-        // If not available, wait for it to load
-        const observer = new MutationObserver((mutations, obs) => {
+        // If not available yet, set up a small delay to try again
+        const timeout = setTimeout(() => {
           if ((window as any).adsbygoogle) {
             pushAd();
-            obs.disconnect(); // Stop observing once pushed
           }
-        });
+        }, 300);
         
-        observer.observe(document, {
-          childList: true,
-          subtree: true
-        });
-        
-        // Cleanup observer
-        return () => {
-          observer.disconnect();
-        };
+        return () => clearTimeout(timeout);
       }
     } catch (e) {
       console.error('AdSense error:', e);
     }
-  }, []);
+  }, [adSlot]); // Re-run when adSlot changes
 
   return (
-    <div className="ad-container my-8">
+    <div className="ad-container my-6 overflow-hidden">
       <ins
         className="adsbygoogle"
         style={style}

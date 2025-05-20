@@ -12,7 +12,40 @@ const Result = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   
-  const result = location.state?.result as QuizResult;
+  let result = location.state?.result as QuizResult;
+  
+  // Ensure there's at least 1% difference between percentages
+  if (result) {
+    const { visual, auditory, kinesthetic } = result.percentage;
+    
+    // Check if any two percentages are equal
+    if (visual === auditory || visual === kinesthetic || auditory === kinesthetic) {
+      const adjustedPercentages = { ...result.percentage };
+      
+      // If visual equals auditory, reduce auditory by 1%
+      if (visual === auditory) {
+        adjustedPercentages.auditory -= 1;
+        adjustedPercentages.visual += 1;
+      }
+      
+      // If auditory equals kinesthetic, reduce kinesthetic by 1%
+      if (auditory === kinesthetic) {
+        adjustedPercentages.kinesthetic -= 1;
+        adjustedPercentages.auditory += 1;
+      }
+      
+      // If visual equals kinesthetic, reduce kinesthetic by 1%
+      if (visual === kinesthetic) {
+        adjustedPercentages.kinesthetic -= 1;
+        adjustedPercentages.visual += 1;
+      }
+      
+      result = {
+        ...result,
+        percentage: adjustedPercentages
+      };
+    }
+  }
   
   useEffect(() => {
     if (!result) {
