@@ -3,7 +3,6 @@ import React from 'react';
 import { 
   ChartContainer, 
   ChartLegendContent,
-  ChartTooltip,
   ChartTooltipContent
 } from '@/components/ui/chart';
 import { QuizResult } from '@/types';
@@ -15,7 +14,8 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  Cell
+  Cell,
+  LabelList
 } from 'recharts';
 
 interface ResultChartProps {
@@ -44,29 +44,6 @@ const ResultChart: React.FC<ResultChartProps> = ({ result }) => {
     }
   ];
 
-  const getIcon = (iconName: string) => {
-    switch(iconName) {
-      case 'eye':
-        return <Eye className="h-4 w-4 mr-1" />;
-      case 'headphones':
-        return <Headphones className="h-4 w-4 mr-1" />;
-      case 'move':
-        return <Move className="h-4 w-4 mr-1" />;
-      default:
-        return null;
-    }
-  };
-  
-  const CustomizedLabel = ({ x, y, width, value, icon }: any) => {
-    return (
-      <g transform={`translate(${x + width / 2}, ${y - 10})`}>
-        <text x={0} y={0} dy={-5} textAnchor="middle" fill="#666" fontSize={12} fontWeight="500">
-          {`${value}%`}
-        </text>
-      </g>
-    );
-  };
-
   const config = {
     visual: {
       label: 'Visual',
@@ -87,20 +64,28 @@ const ResultChart: React.FC<ResultChartProps> = ({ result }) => {
 
   return (
     <div className="w-full h-64">
+      <h3 className="text-xl font-semibold mb-4">Distribusi Gaya Belajar</h3>
       <ChartContainer config={config}>
-        <BarChart data={data} margin={{ top: 20, right: 20, left: 0, bottom: 5 }}>
+        <BarChart 
+          data={data} 
+          layout="vertical"
+          margin={{ top: 5, right: 30, left: 80, bottom: 5 }}
+        >
           <XAxis 
-            dataKey="name" 
+            type="number"
+            domain={[0, 100]}
+            tickCount={5}
             axisLine={false}
             tickLine={false}
             tick={{ fontSize: 12, fill: '#666' }}
           />
           <YAxis 
-            domain={[0, 100]} 
+            dataKey="name"
+            type="category"
             axisLine={false}
             tickLine={false}
-            tick={{ fontSize: 12, fill: '#666' }}
-            width={30}
+            tick={{ fontSize: 14, fill: '#666', fontWeight: 500 }}
+            width={80}
           />
           <Tooltip 
             content={<ChartTooltipContent />}
@@ -108,9 +93,8 @@ const ResultChart: React.FC<ResultChartProps> = ({ result }) => {
           />
           <Bar 
             dataKey="value" 
-            radius={[4, 4, 0, 0]}
-            barSize={40}
-            label={<CustomizedLabel />}
+            radius={[0, 4, 4, 0]}
+            barSize={30}
           >
             {data.map((entry, index) => (
               <Cell 
@@ -120,6 +104,12 @@ const ResultChart: React.FC<ResultChartProps> = ({ result }) => {
                 className="hover:opacity-80 transition-opacity duration-300"
               />
             ))}
+            <LabelList 
+              dataKey="value" 
+              position="right" 
+              formatter={(value: number) => `${value}%`}
+              style={{ fontWeight: 'bold', fill: '#333' }}
+            />
           </Bar>
         </BarChart>
       </ChartContainer>
