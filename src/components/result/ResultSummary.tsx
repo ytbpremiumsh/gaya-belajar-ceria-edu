@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
@@ -85,7 +84,7 @@ const ResultSummary: React.FC<ResultSummaryProps> = ({ result, onTryAgain, onDow
           isDominant={true}
         />
         
-        {/* AdSense Ad */}
+        {/* AdSense Ad in middle of content - high engagement area */}
         <AdSense adSlot="2678731669" />
 
         {/* Chart and Secondary Styles */}

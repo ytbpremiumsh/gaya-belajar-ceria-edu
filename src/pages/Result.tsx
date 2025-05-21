@@ -94,8 +94,8 @@ const Result = () => {
       <div className="absolute bottom-20 left-10 w-60 h-60 bg-accent/10 rounded-full blur-3xl -z-10"></div>
       <div className="absolute top-1/3 left-1/4 w-32 h-32 bg-pastel-blue/15 rounded-full blur-2xl -z-10"></div>
       
-      {/* Top AdSense */}
-      <AdSense adSlot="2678731669" />
+      {/* Top AdSense - in a prominent location */}
+      <AdSense adSlot="2678731669" className="mb-6" />
       
       {/* Result Content */}
       <ResultSummary 
@@ -103,6 +103,9 @@ const Result = () => {
         onTryAgain={handleTryAgain} 
         onDownloadPdf={handleDownloadPdf} 
       />
+      
+      {/* Bottom AdSense - for users who scrolled to the bottom */}
+      <AdSense adSlot="5861596767" className="mt-8" />
     </div>
   );
 };

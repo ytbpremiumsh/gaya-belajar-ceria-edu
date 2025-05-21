@@ -2,6 +2,8 @@
 import { Outlet } from 'react-router-dom';
 import AppHeader from './AppHeader';
 import AppFooter from './AppFooter';
+import StickyAd from '../ads/StickyAd';
+import AdSense from '../ads/AdSense';
 
 const AppLayout = () => {
   return (
@@ -13,10 +15,21 @@ const AppLayout = () => {
       <div className="absolute top-1/2 left-1/4 w-24 h-24 rounded-full bg-pastel-peach/20 blur-3xl pointer-events-none"></div>
       
       <AppHeader />
+      {/* Top ad below header */}
+      <div className="container mt-4">
+        <AdSense adSlot="2678731669" adFormat="horizontal" />
+      </div>
       <main className="flex-1 container py-8 relative z-10">
         <Outlet />
       </main>
+      {/* Bottom ad above footer */}
+      <div className="container mb-4">
+        <AdSense adSlot="2678731669" adFormat="horizontal" />
+      </div>
       <AppFooter />
+      
+      {/* Sticky ad at the bottom */}
+      <StickyAd adSlot="8909169866" position="bottom" />
     </div>
   );
 };

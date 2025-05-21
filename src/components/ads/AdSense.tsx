@@ -6,13 +6,15 @@ interface AdSenseProps {
   adFormat?: string;
   fullWidthResponsive?: boolean;
   style?: React.CSSProperties;
+  className?: string;
 }
 
 const AdSense: React.FC<AdSenseProps> = ({
   adSlot,
   adFormat = 'auto',
   fullWidthResponsive = true,
-  style = { display: 'block' }
+  style = { display: 'block' },
+  className = "my-6"
 }) => {
   useEffect(() => {
     try {
@@ -46,7 +48,7 @@ const AdSense: React.FC<AdSenseProps> = ({
   }, [adSlot]); // Re-run when adSlot changes
 
   return (
-    <div className="ad-container my-6 overflow-hidden">
+    <div className={`ad-container overflow-hidden ${className}`}>
       <ins
         className="adsbygoogle"
         style={style}
