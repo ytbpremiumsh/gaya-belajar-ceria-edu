@@ -1,5 +1,6 @@
 
 import React from 'react';
+import AdSense from '@/components/ads/AdSense';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
@@ -122,6 +123,8 @@ const Home = () => {
             </p>
           </div>
         </div>
+    {/* AdSense Ad */}
+        <AdSense adSlot="2678731669" />
 
         <div className="text-center mt-10">
           <Link to="/quiz">
@@ -130,6 +133,10 @@ const Home = () => {
             </Button>
           </Link>
         </div>
+
+    {/* AdSense Ad */}
+      <AdSense adSlot="2678731669" />
+        
       </section>
     </div>
   );

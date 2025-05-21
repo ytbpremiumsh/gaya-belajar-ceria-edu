@@ -3,6 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Eye, Headphones, Move } from 'lucide-react';
+import AdSense from '@/components/ads/AdSense';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -146,7 +147,8 @@ const Index = () => {
             Kebanyakan orang memiliki kombinasi dari ketiga gaya belajar dengan satu gaya yang lebih dominan. 
             Mengenali kombinasi unikmu akan membantu mengoptimalkan proses belajar.
           </p>
-          
+           {/* AdSense Ad */}
+      <AdSense adSlot="2678731669" />
           <Button 
             size="lg" 
             className="bg-gradient-to-r from-primary to-accent hover:opacity-90 shadow-lg hover:shadow-xl 
@@ -155,6 +157,8 @@ const Index = () => {
           >
             Temukan Gaya Belajarmu
           </Button>
+           {/* AdSense Ad */}
+      <AdSense adSlot="2678731669" />
         </div>
       </section>
     </div>
