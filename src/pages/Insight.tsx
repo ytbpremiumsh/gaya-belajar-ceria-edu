@@ -55,7 +55,9 @@ const Insight = () => {
             </div>
           </CardContent>
         </Card>
-        
+         {/* Ad placement after introduction */}
+      <AdSense adSlot="2678731669" className="my-8" />
+      
         <div className="bg-white p-6 rounded-xl shadow-sm">
           <h3 className="text-xl font-semibold mb-4">Media dan Alat Bantu Visual:</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -82,7 +84,7 @@ const Insight = () => {
       </section>
       
       {/* Ad placement between sections */}
-      <AdSense adSlot="5861596767" className="my-8" />
+      <AdSense adSlot="2678731669" className="my-8" />
       
       <section className="mb-16">
         <div className="flex flex-col md:flex-row items-center gap-6 mb-8">
@@ -297,7 +299,7 @@ const Insight = () => {
       </section>
       
       {/* Final ad placement before end of page */}
-      <AdSense adSlot="5861596767" className="my-8" />
+      <AdSense adSlot="2678731669" className="my-8" />
     </div>
   );
 };

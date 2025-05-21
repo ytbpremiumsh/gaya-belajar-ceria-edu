@@ -99,7 +99,8 @@ const Index = () => {
           <p className="text-center text-lg text-muted-foreground mb-12">
             Setiap orang memiliki cara belajar yang unik, namun umumnya cenderung pada salah satu dari tiga gaya belajar berikut:
           </p>
-          
+                {/* AdSense Ad */}
+      <AdSense adSlot="2678731669" />
           <div className="grid grid-cols-1 gap-6">
             <div className="flex flex-col md:flex-row md:items-center gap-6 p-6 rounded-2xl bg-gradient-to-r from-pastel-blue/30 to-transparent border border-pastel-blue/50 shadow-md">
               <div className="bg-white p-4 rounded-xl shadow-md">
@@ -128,7 +129,8 @@ const Index = () => {
                 </p>
               </div>
             </div>
-            
+                  {/* AdSense Ad */}
+      <AdSense adSlot="2678731669" />
             <div className="flex flex-col md:flex-row md:items-center gap-6 p-6 rounded-2xl bg-gradient-to-r from-pastel-peach/30 to-transparent border border-pastel-peach/50 shadow-md">
               <div className="bg-white p-4 rounded-xl shadow-md">
                 <div className="w-16 h-16 rounded-full bg-pastel-peach flex items-center justify-center">
