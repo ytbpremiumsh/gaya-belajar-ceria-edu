@@ -3,7 +3,6 @@ import React from 'react';
 import { Eye, Headphones, Move } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { LearningStyle, LearningStyleInfo } from '@/types';
-import { HoverCard, HoverCardTrigger, HoverCardContent } from '@/components/ui/hover-card';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 
@@ -23,13 +22,13 @@ const LearningStyleCard: React.FC<LearningStyleCardProps> = ({
   const getIcon = () => {
     switch (type) {
       case 'visual':
-        return <Eye className="h-5 w-5" />;
+        return <Eye className="h-4 w-4" />;
       case 'auditory':
-        return <Headphones className="h-5 w-5" />;
+        return <Headphones className="h-4 w-4" />;
       case 'kinesthetic':
-        return <Move className="h-5 w-5" />;
+        return <Move className="h-4 w-4" />;
       default:
-        return <Eye className="h-5 w-5" />;
+        return <Eye className="h-4 w-4" />;
     }
   };
   
@@ -74,53 +73,57 @@ const LearningStyleCard: React.FC<LearningStyleCardProps> = ({
   
   return (
     <Card className={cn("overflow-hidden border-2 shadow-lg transition-all hover:shadow-xl", styles.gradientClass, styles.borderClass, isDominant && "transform scale-[1.02]")}>
-      <CardContent className="p-6 py-[20px]">
-        <div className="flex flex-col md:flex-row gap-4">
+      <CardContent className="p-4">
+        <div className="flex flex-col md:flex-row gap-3">
           <div className="flex-shrink-0">
-            <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center shadow-inner", styles.iconBgClass)}>
-              <div className={cn("w-9 h-9 rounded-lg flex items-center justify-center shadow-lg", "bg-white")}>
+            <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center shadow-inner", styles.iconBgClass)}>
+              <div className={cn("w-8 h-8 rounded-md flex items-center justify-center shadow-md", "bg-white")}>
                 {getIcon()}
               </div>
             </div>
           </div>
           
           <div className="flex-1">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-2xl font-semibold">{styleInfo.title}</h3>
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-xl font-semibold">{styleInfo.title}</h3>
               <span className="text-lg font-bold">{percentage}%</span>
             </div>
             
-            <div className="mb-3">
-              <Progress className={cn("h-2.5", styles.progressColor.replace('bg-', 'bg-opacity-70 ') + ' [&>div]:' + styles.progressColor)} value={percentage} />
+            <div className="mb-2">
+              <Progress className={cn("h-2", styles.progressColor.replace('bg-', 'bg-opacity-70 ') + ' [&>div]:' + styles.progressColor)} value={percentage} />
             </div>
             
             {isDominant && (
               <>
-                <p className="mb-4 text-base leading-relaxed">{styleInfo.description}</p>
+                <p className="mb-3 text-sm leading-relaxed">{styleInfo.description}</p>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="bg-white/60 p-3 rounded-xl shadow-sm">
-                    <h4 className={cn("font-semibold mb-2 pb-1 border-b", styles.borderClass)}>
-                      Karakteristik
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="bg-white/60 p-2 rounded-lg shadow-sm">
+                    <h4 className={cn("text-sm font-semibold mb-1.5 border-b", styles.borderClass)}>
+                      <span className="flex items-center gap-1">
+                        <span className={styles.iconTextClass}>●</span> Karakteristik
+                      </span>
                     </h4>
-                    <ul className="space-y-1">
+                    <ul className="space-y-0.5">
                       {styleInfo.traits.map((trait, index) => (
-                        <li key={index} className="flex items-start gap-1.5 text-sm">
-                          <span className={cn("text-xs mt-1", styles.iconTextClass)}>●</span>
+                        <li key={index} className="flex items-start gap-1 text-xs">
+                          <span className="text-[0.65rem] mt-0.5">•</span>
                           <span>{trait}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
                   
-                  <div className="bg-white/60 p-3 rounded-xl shadow-sm">
-                    <h4 className={cn("font-semibold mb-2 pb-1 border-b", styles.borderClass)}>
-                      Rekomendasi Belajar
+                  <div className="bg-white/60 p-2 rounded-lg shadow-sm">
+                    <h4 className={cn("text-sm font-semibold mb-1.5 border-b", styles.borderClass)}>
+                      <span className="flex items-center gap-1">
+                        <span className={styles.iconTextClass}>●</span> Rekomendasi Belajar
+                      </span>
                     </h4>
-                    <ul className="space-y-1">
+                    <ul className="space-y-0.5">
                       {styleInfo.strategies.map((strategy, index) => (
-                        <li key={index} className="flex items-start gap-1.5 text-sm">
-                          <span className={cn("text-xs mt-1", styles.iconTextClass)}>●</span>
+                        <li key={index} className="flex items-start gap-1 text-xs">
+                          <span className="text-[0.65rem] mt-0.5">•</span>
                           <span>{strategy}</span>
                         </li>
                       ))}
@@ -130,7 +133,7 @@ const LearningStyleCard: React.FC<LearningStyleCardProps> = ({
               </>
             )}
             
-            {!isDominant && <p className="text-base">{styleInfo.description}</p>}
+            {!isDominant && <p className="text-sm">{styleInfo.description}</p>}
           </div>
         </div>
       </CardContent>
