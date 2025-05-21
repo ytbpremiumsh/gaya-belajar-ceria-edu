@@ -15,21 +15,36 @@ const AppLayout = () => {
       <div className="absolute top-1/2 left-1/4 w-24 h-24 rounded-full bg-pastel-peach/20 blur-3xl pointer-events-none"></div>
       
       <AppHeader />
-      {/* Top ad below header */}
+      
+      {/* Top ads below header */}
       <div className="container mt-4">
         <AdSense adSlot="2678731669" adFormat="horizontal" />
       </div>
+      
       <main className="flex-1 container py-8 relative z-10">
+        {/* Ad before content */}
+        <div className="mb-6">
+          <AdSense adSlot="2678731669" />
+        </div>
+        
         <Outlet />
+        
+        {/* Ad after content */}
+        <div className="mt-6">
+          <AdSense adSlot="2678731669" />
+        </div>
       </main>
-      {/* Bottom ad above footer */}
+      
+      {/* Bottom ads above footer */}
       <div className="container mb-4">
         <AdSense adSlot="2678731669" adFormat="horizontal" />
       </div>
+      
       <AppFooter />
       
-      {/* Sticky ad at the bottom */}
+      {/* Sticky ads at the bottom and top */}
       <StickyAd adSlot="8909169866" position="bottom" />
+      <StickyAd adSlot="2678731669" position="top" />
     </div>
   );
 };

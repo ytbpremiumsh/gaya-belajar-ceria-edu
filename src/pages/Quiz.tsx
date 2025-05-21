@@ -7,6 +7,7 @@ import { quizQuestions } from '@/data/quizQuestions';
 import QuizOption from '@/components/quiz/QuizOption';
 import QuizProgress from '@/components/quiz/QuizProgress';
 import { calculateResult, AnswerMap } from '@/utils/calculateResult';
+import AdSense from '@/components/ads/AdSense';
 
 const Quiz = () => {
   const navigate = useNavigate();
@@ -44,6 +45,11 @@ const Quiz = () => {
     if (currentQuestion < totalQuestions) {
       setCurrentQuestion(prev => prev + 1);
       setSelectedOption(null);
+      
+      // Show ad every 3 questions
+      if (currentQuestion % 3 === 0) {
+        // This is where we'd show an interstitial ad, if we had one
+      }
     } else {
       // Calculate result and navigate to result page
       const result = calculateResult(answers, quizQuestions);
@@ -73,10 +79,13 @@ const Quiz = () => {
   
   return (
     <div className="max-w-3xl mx-auto animate-fade-in">
+      {/* Top Ad */}
+      <AdSense adSlot="2678731669" className="mb-6" />
+      
       <QuizProgress progress={progress} currentQuestion={currentQuestion} totalQuestions={totalQuestions} />
       
       <div className="bg-white rounded-xl shadow-md p-6 md:p-8 my-8">
-        <h2 className="text-lg md:text-xl font-semibold mb-6">
+        <h2 className="text-base md:text-lg font-semibold mb-6">
           {question.question}
         </h2>
         
@@ -86,18 +95,21 @@ const Quiz = () => {
             onSelect={() => handleOptionSelect('a')}
             label="A"
             text={question.options.a}
+            textSize="sm" // Make the option text smaller
           />
           <QuizOption
             selected={selectedOption === 'b'}
             onSelect={() => handleOptionSelect('b')}
             label="B"
             text={question.options.b}
+            textSize="sm" // Make the option text smaller
           />
           <QuizOption
             selected={selectedOption === 'c'}
             onSelect={() => handleOptionSelect('c')}
             label="C"
             text={question.options.c}
+            textSize="sm" // Make the option text smaller
           />
         </div>
         
@@ -118,6 +130,21 @@ const Quiz = () => {
           </Button>
         </div>
       </div>
+      
+      {/* Middle Ad */}
+      <AdSense adSlot="2678731669" className="my-6" />
+      
+      {/* More information for users */}
+      <div className="bg-pastel-blue/10 rounded-xl p-6 my-6">
+        <h3 className="text-lg font-medium mb-3">Tips Menjawab</h3>
+        <p className="text-sm text-muted-foreground">
+          Jawab sesuai dengan kebiasaan belajarmu sehari-hari. Tidak ada jawaban yang benar atau salah, 
+          pilih yang paling menggambarkan preferensimu.
+        </p>
+      </div>
+      
+      {/* Bottom Ad */}
+      <AdSense adSlot="2678731669" className="mt-6" />
     </div>
   );
 };

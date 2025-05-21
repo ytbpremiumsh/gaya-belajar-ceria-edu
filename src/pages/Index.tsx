@@ -49,6 +49,9 @@ const Index = () => {
         </div>
       </section>
       
+      {/* AdSense Ad after hero section */}
+      <AdSense adSlot="2678731669" className="my-8" />
+      
       <section className="py-12 bg-gradient-to-b from-secondary/20 to-transparent rounded-3xl mb-16">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">Kenapa Perlu Mengetahui Gaya Belajar?</h2>
@@ -86,6 +89,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+      
+      {/* AdSense Ad in the middle of content */}
+      <AdSense adSlot="2678731669" className="my-8" />
       
       <section className="py-12 mb-16">
         <div className="max-w-4xl mx-auto px-4">
@@ -140,6 +146,9 @@ const Index = () => {
         </div>
       </section>
       
+      {/* AdSense Ad before final CTA */}
+      <AdSense adSlot="2678731669" className="my-8" />
+      
       <section className="py-12 bg-gradient-to-br from-pastel-blue/20 via-pastel-lavender/20 to-pastel-peach/20 rounded-3xl mb-10">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-6">Gaya Belajar Campuran</h2>
@@ -147,18 +156,21 @@ const Index = () => {
             Kebanyakan orang memiliki kombinasi dari ketiga gaya belajar dengan satu gaya yang lebih dominan. 
             Mengenali kombinasi unikmu akan membantu mengoptimalkan proses belajar.
           </p>
-           {/* AdSense Ad */}
-      <AdSense adSlot="2678731669" />
+          
+          {/* AdSense Ad */}
+          <AdSense adSlot="2678731669" />
+          
           <Button 
             size="lg" 
             className="bg-gradient-to-r from-primary to-accent hover:opacity-90 shadow-lg hover:shadow-xl 
-              transition-all duration-300 transform hover:-translate-y-1"
+              transition-all duration-300 transform hover:-translate-y-1 my-8"
             onClick={handleStartTest}
           >
             Temukan Gaya Belajarmu
           </Button>
-           {/* AdSense Ad */}
-      <AdSense adSlot="2678731669" />
+          
+          {/* AdSense Ad */}
+          <AdSense adSlot="2678731669" />
         </div>
       </section>
     </div>

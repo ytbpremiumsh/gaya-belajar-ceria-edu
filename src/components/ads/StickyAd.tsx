@@ -30,8 +30,12 @@ const StickyAd: React.FC<StickyAdProps> = ({ adSlot, position = 'bottom' }) => {
   const handleClose = () => {
     setIsVisible(false);
     setDismissed(true);
-    // Remember the ad was closed for this session
+    // Remember the ad was closed for 1 hour (3600000 ms)
     localStorage.setItem(`ad-dismissed-${adSlot}`, 'true');
+    // Set a timeout to clear the localStorage after 1 hour
+    setTimeout(() => {
+      localStorage.removeItem(`ad-dismissed-${adSlot}`);
+    }, 3600000);
   };
 
   if (dismissed) return null;
@@ -53,6 +57,7 @@ const StickyAd: React.FC<StickyAdProps> = ({ adSlot, position = 'bottom' }) => {
             adSlot={adSlot} 
             adFormat="horizontal"
             style={{ display: 'block', minHeight: '90px' }}
+            className="my-2"
           />
         </div>
       </div>
