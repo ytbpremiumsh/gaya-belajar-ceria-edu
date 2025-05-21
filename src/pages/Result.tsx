@@ -22,24 +22,25 @@ const Result = () => {
     if (visual === auditory || visual === kinesthetic || auditory === kinesthetic) {
       const adjustedPercentages = { ...result.percentage };
       
-      // If visual equals auditory, reduce auditory by 1%
+      // If visual equals auditory, adjust them
       if (visual === auditory) {
         adjustedPercentages.auditory -= 1;
         adjustedPercentages.visual += 1;
       }
       
-      // If auditory equals kinesthetic, reduce kinesthetic by 1%
+      // If auditory equals kinesthetic, adjust them
       if (auditory === kinesthetic) {
         adjustedPercentages.kinesthetic -= 1;
         adjustedPercentages.auditory += 1;
       }
       
-      // If visual equals kinesthetic, reduce kinesthetic by 1%
+      // If visual equals kinesthetic, adjust them
       if (visual === kinesthetic) {
         adjustedPercentages.kinesthetic -= 1;
         adjustedPercentages.visual += 1;
       }
       
+      // Update the result
       result = {
         ...result,
         percentage: adjustedPercentages
@@ -56,6 +57,9 @@ const Result = () => {
       });
       navigate('/quiz');
     }
+    
+    // Update document title with learn.ruangedukasi.com branding
+    document.title = "Hasil Tes Gaya Belajar | learn.ruangedukasi.com";
   }, [result, toast, navigate]);
   
   if (!result) {

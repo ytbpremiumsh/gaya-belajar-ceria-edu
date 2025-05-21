@@ -9,11 +9,7 @@ const AppFooter = () => {
       <div className="container">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center">
-            <img 
-              src="https://www.ruangedukasi.web.id/wp-content/uploads/2020/02/logo-header.png" 
-              alt="Ruang Edukasi"
-              className="h-8 mr-3" 
-            />
+            <div className="font-bold">learn.ruangedukasi.com</div>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
             <Link to="/" className="text-sm hover:text-primary transition-colors">
@@ -27,7 +23,7 @@ const AppFooter = () => {
             </Link>
           </div>
           <div className="text-sm text-muted-foreground">
-            © {currentYear} Tes Gaya Belajar
+            © {currentYear} learn.ruangedukasi.com
           </div>
         </div>
       </div>

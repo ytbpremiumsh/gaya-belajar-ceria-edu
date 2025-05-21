@@ -10,27 +10,34 @@ import Quiz from "./pages/Quiz";
 import Result from "./pages/Result";
 import Insight from "./pages/Insight";
 import NotFound from "./pages/NotFound";
+import { useEffect } from "react";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route element={<AppLayout />}>
-            <Route path="/" element={<Index />} />
-            <Route path="/quiz" element={<Quiz />} />
-            <Route path="/result" element={<Result />} />
-            <Route path="/insight" element={<Insight />} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  useEffect(() => {
+    document.title = "Tes Gaya Belajar | learn.ruangedukasi.com";
+  }, []);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route element={<AppLayout />}>
+              <Route path="/" element={<Index />} />
+              <Route path="/quiz" element={<Quiz />} />
+              <Route path="/result" element={<Result />} />
+              <Route path="/insight" element={<Insight />} />
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

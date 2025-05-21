@@ -6,11 +6,7 @@ const AppHeader = () => {
     <header className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-sm border-b py-3">
       <div className="container flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
-          <img 
-            src="https://www.ruangedukasi.web.id/wp-content/uploads/2020/02/logo-header.png" 
-            alt="Ruang Edukasi"
-            className="h-10 sm:h-12" 
-          />
+          <div className="font-bold text-lg">learn.ruangedukasi.com</div>
         </Link>
         <nav className="hidden md:flex items-center space-x-6">
           <Link to="/" className="text-sm font-medium transition-colors hover:text-primary">

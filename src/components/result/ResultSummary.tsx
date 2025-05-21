@@ -25,7 +25,8 @@ const ResultSummary: React.FC<ResultSummaryProps> = ({ result, onTryAgain, onDow
     if (navigator.share) {
       navigator.share({
         title: 'Hasil Tes Gaya Belajar',
-        text: `Gaya belajar dominan saya adalah ${learningStyles[result.dominantStyle].title}!`
+        text: `Gaya belajar dominan saya adalah ${learningStyles[result.dominantStyle].title}!`,
+        url: 'https://learn.ruangedukasi.com'
       })
       .catch((error) => {
         console.log('Error sharing:', error);
@@ -73,9 +74,9 @@ const ResultSummary: React.FC<ResultSummaryProps> = ({ result, onTryAgain, onDow
           Berdasarkan jawaban kamu, gaya belajar dominan kamu adalah:
         </p>
       </div>
-      <ResultChart result={result} />
+      
       {/* Main Section */}
-      <div className="grid grid-cols-1 gap-8 mb-10">
+      <div className="grid grid-cols-1 gap-6 mb-8">
         {/* Dominant Learning Style */}
         <LearningStyleCard 
           type={result.dominantStyle} 
@@ -88,19 +89,19 @@ const ResultSummary: React.FC<ResultSummaryProps> = ({ result, onTryAgain, onDow
         <AdSense adSlot="2678731669" />
 
         {/* Chart and Secondary Styles */}
-        <div className="mt-6">
+        <div className="mt-4">
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-slate-100">
             <ResultChart result={result} />
             
-            <div className="mt-10">
-              <h3 className="text-xl font-semibold mb-6">Gaya Belajar Sekunder</h3>
-              <div className="space-y-6">
+            <div className="mt-8">
+              <h3 className="text-xl font-semibold mb-4">Gaya Belajar Sekunder</h3>
+              <div className="space-y-4">
                 {secondaryStyles.map(([style, percent]) => (
                   <Card 
                     key={style} 
                     className="overflow-hidden border-0 shadow-md hover:shadow-lg transition-all duration-300"
                   >
-                    <CardContent className="p-5">
+                    <CardContent className="p-4">
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center gap-3">
                           <div className={`w-3 h-10 rounded-full ${getStyleColorClass(style)}`}></div>
@@ -110,7 +111,7 @@ const ResultSummary: React.FC<ResultSummaryProps> = ({ result, onTryAgain, onDow
                       </div>
                       
                       <Progress 
-                        className="h-2.5 mb-4" 
+                        className="h-2.5 mb-3" 
                         value={percent} 
                         style={{
                           backgroundColor: `${style === 'visual' ? '#A7C7E7' : style === 'auditory' ? '#E6E6FA' : '#FFD8BE'}30`,
@@ -118,22 +119,22 @@ const ResultSummary: React.FC<ResultSummaryProps> = ({ result, onTryAgain, onDow
                         }}
                       />
                       
-                      <p className="text-sm text-muted-foreground mb-4">
+                      <p className="text-sm text-muted-foreground mb-3">
                         {learningStyles[style as keyof typeof learningStyles].description}
                       </p>
                       
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
                         <div className={`border-l-2 ${getStyleBorderClass(style)} pl-3`}>
-                          <h5 className="text-sm font-medium mb-2">Karakteristik Utama:</h5>
-                          <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                          <h5 className="text-sm font-medium mb-1">Karakteristik Utama:</h5>
+                          <ul className="list-disc list-inside text-sm text-muted-foreground space-y-0.5">
                             {learningStyles[style as keyof typeof learningStyles].traits.slice(0, 3).map((trait, idx) => (
                               <li key={idx} className="text-sm">{trait}</li>
                             ))}
                           </ul>
                         </div>
                         <div className={`border-l-2 ${getStyleBorderClass(style)} pl-3`}>
-                          <h5 className="text-sm font-medium mb-2">Rekomendasi Belajar:</h5>
-                          <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                          <h5 className="text-sm font-medium mb-1">Rekomendasi Belajar:</h5>
+                          <ul className="list-disc list-inside text-sm text-muted-foreground space-y-0.5">
                             {learningStyles[style as keyof typeof learningStyles].strategies.slice(0, 3).map((strategy, idx) => (
                               <li key={idx} className="text-sm">{strategy}</li>
                             ))}
@@ -141,7 +142,7 @@ const ResultSummary: React.FC<ResultSummaryProps> = ({ result, onTryAgain, onDow
                         </div>
                       </div>
                       
-                      <div className="mt-4 pt-3 border-t border-gray-100">
+                      <div className="mt-3 pt-2 border-t border-gray-100">
                         <Link 
                           to="/insight" 
                           className={`text-sm font-medium underline underline-offset-4 hover:opacity-80 transition-opacity

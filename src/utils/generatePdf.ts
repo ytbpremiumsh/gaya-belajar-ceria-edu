@@ -15,14 +15,31 @@ export const generatePdf = (result: QuizResult) => {
   const margin = 20;
   const contentWidth = pageWidth - (margin * 2);
   
-  // Add logo
-  doc.setFillColor(255, 255, 255);
+  // Add background
+  doc.setFillColor(248, 250, 252); // Light background color
   doc.rect(0, 0, pageWidth, 297, 'F');
   
-  // Set up title
-  doc.setFontSize(24);
+  // Add decorative header
+  doc.setFillColor(230, 236, 245); // Light blue background for header
+  doc.rect(0, 0, pageWidth, 50, 'F');
+  
+  // Add logo/branding
+  doc.setFontSize(14);
   doc.setFont('helvetica', 'bold');
-  doc.text("HASIL TES GAYA BELAJAR", margin, 30, { align: 'left' });
+  doc.setTextColor(66, 133, 244);
+  doc.text("learn.ruangedukasi.com", margin, 15);
+  
+  // Set up title with a card-like appearance
+  doc.setFillColor(255, 255, 255);
+  doc.roundedRect(margin, 25, contentWidth, 20, 3, 3, 'F');
+  doc.setLineWidth(0.1);
+  doc.setDrawColor(200, 200, 200);
+  doc.roundedRect(margin, 25, contentWidth, 20, 3, 3, 'S');
+  
+  doc.setFontSize(18);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(40, 40, 40);
+  doc.text("HASIL TES GAYA BELAJAR", pageWidth/2, 38, { align: 'center' });
   
   // Add date
   doc.setFontSize(10);
@@ -34,99 +51,171 @@ export const generatePdf = (result: QuizResult) => {
     month: 'long', 
     day: 'numeric' 
   });
-  doc.text(currentDate, margin, 38);
+  doc.text(currentDate, pageWidth - margin, 15, { align: 'right' });
   
-  // Add horizontal line
-  doc.setLineWidth(0.5);
+  // Main result card
+  const yPosition = 60;
+  doc.setFillColor(255, 255, 255);
+  doc.roundedRect(margin, yPosition, contentWidth, 45, 3, 3, 'F');
+  doc.setLineWidth(0.1);
   doc.setDrawColor(200, 200, 200);
-  doc.line(margin, 42, pageWidth - margin, 42);
+  doc.roundedRect(margin, yPosition, contentWidth, 45, 3, 3, 'S');
   
-  // Main result
+  // Dominant Style heading
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(16);
-  doc.setTextColor(0, 0, 0);
+  doc.setTextColor(40, 40, 40);
   const dominantStyle = learningStyles[result.dominantStyle];
-  doc.text(`Gaya Belajar Dominan: ${dominantStyle.title}`, margin, 55);
+  doc.text(`Gaya Belajar Dominan: ${dominantStyle.title}`, margin + 5, yPosition + 10);
+  doc.setFontSize(14);
+  doc.text(`${result.percentage[result.dominantStyle]}%`, pageWidth - margin - 10, yPosition + 10, { align: 'right' });
   
-  // Percentages
-  doc.setFontSize(12);
-  doc.text("Distribusi Gaya Belajar:", margin, 65);
+  // Style color bar
+  const colorMap = {
+    visual: [167, 199, 231],     // pastel blue
+    auditory: [230, 230, 250],   // pastel lavender
+    kinesthetic: [255, 216, 190] // pastel peach
+  };
   
+  doc.setFillColor(...colorMap[result.dominantStyle]);
+  doc.roundedRect(margin + 5, yPosition + 15, contentWidth - 10, 5, 1, 1, 'F');
+  
+  // Description under the bar
   doc.setFont('helvetica', 'normal');
-  doc.text(`Visual: ${result.percentage.visual}%`, margin + 10, 73);
-  doc.text(`Auditori: ${result.percentage.auditory}%`, margin + 10, 81);
-  doc.text(`Kinestetik: ${result.percentage.kinesthetic}%`, margin + 10, 89);
+  doc.setFontSize(11);
+  doc.setTextColor(60, 60, 60);
+  const descriptionLines = doc.splitTextToSize(dominantStyle.description, contentWidth - 15);
+  doc.text(descriptionLines, margin + 5, yPosition + 30);
   
-  // Bar charts for percentages
-  const barHeight = 6;
-  const maxBarWidth = 100;
+  // Percentages chart/card
+  let currentY = yPosition + 60;
+  doc.setFillColor(255, 255, 255);
+  doc.roundedRect(margin, currentY, contentWidth, 40, 3, 3, 'F');
+  doc.setLineWidth(0.1);
+  doc.setDrawColor(200, 200, 200);
+  doc.roundedRect(margin, currentY, contentWidth, 40, 3, 3, 'S');
+  
+  doc.setFontSize(14);
+  doc.setFont('helvetica', 'bold');
+  doc.text("Distribusi Gaya Belajar:", margin + 5, currentY + 10);
+  
+  // Visual row
+  currentY += 18;
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'normal');
+  doc.text("Visual:", margin + 10, currentY);
+  doc.text(`${result.percentage.visual}%`, margin + 40, currentY);
   
   // Visual bar
+  const barHeight = 4;
+  const maxBarWidth = 100;
   doc.setFillColor(167, 199, 231); // pastel blue
-  doc.rect(
-    pageWidth - margin - maxBarWidth, 
-    70, 
+  doc.roundedRect(
+    margin + 50, 
+    currentY - 3, 
     (maxBarWidth * result.percentage.visual) / 100, 
     barHeight, 
-    'F'
+    1, 1, 'F'
   );
+  
+  // Auditory row
+  currentY += 10;
+  doc.text("Auditori:", margin + 10, currentY);
+  doc.text(`${result.percentage.auditory}%`, margin + 40, currentY);
   
   // Auditory bar
   doc.setFillColor(230, 230, 250); // pastel lavender
-  doc.rect(
-    pageWidth - margin - maxBarWidth, 
-    78, 
+  doc.roundedRect(
+    margin + 50, 
+    currentY - 3, 
     (maxBarWidth * result.percentage.auditory) / 100, 
     barHeight, 
-    'F'
+    1, 1, 'F'
   );
+  
+  // Kinesthetic row
+  currentY += 10;
+  doc.text("Kinestetik:", margin + 10, currentY);
+  doc.text(`${result.percentage.kinesthetic}%`, margin + 40, currentY);
   
   // Kinesthetic bar
   doc.setFillColor(255, 216, 190); // pastel peach
-  doc.rect(
-    pageWidth - margin - maxBarWidth, 
-    86, 
+  doc.roundedRect(
+    margin + 50, 
+    currentY - 3, 
     (maxBarWidth * result.percentage.kinesthetic) / 100, 
     barHeight, 
-    'F'
+    1, 1, 'F'
   );
   
-  // Description
-  doc.setFontSize(12);
+  // Traits section
+  currentY += 20;
+  doc.setFillColor(255, 255, 255);
+  doc.roundedRect(margin, currentY, contentWidth, 80, 3, 3, 'F');
+  doc.setLineWidth(0.1);
+  doc.setDrawColor(200, 200, 200);
+  doc.roundedRect(margin, currentY, contentWidth, 80, 3, 3, 'S');
+  
+  // Section title with color bar
+  doc.setFillColor(...colorMap[result.dominantStyle]);
+  doc.rect(margin, currentY, 8, 20, 'F');
+  
   doc.setFont('helvetica', 'bold');
-  doc.text("Tentang Gaya Belajar Kamu:", margin, 105);
+  doc.setFontSize(14);
+  doc.setTextColor(40, 40, 40);
+  doc.text("Karakteristik:", margin + 12, currentY + 12);
   
+  // Traits bullets
   doc.setFont('helvetica', 'normal');
-  const descriptionLines = doc.splitTextToSize(dominantStyle.description, contentWidth);
-  doc.text(descriptionLines, margin, 115);
-  
-  // Traits
-  let currentY = 115 + (descriptionLines.length * 6);
-  doc.setFont('helvetica', 'bold');
-  doc.text("Karakteristik:", margin, currentY);
-  doc.setFont('helvetica', 'normal');
-  
-  dominantStyle.traits.forEach((trait, index) => {
-    currentY += 8;
-    doc.text(`• ${trait}`, margin + 5, currentY);
-  });
-  
-  // Strategies
-  currentY += 10;
-  doc.setFont('helvetica', 'bold');
-  doc.text("Rekomendasi Belajar:", margin, currentY);
-  doc.setFont('helvetica', 'normal');
-  
-  dominantStyle.strategies.forEach((strategy, index) => {
-    currentY += 8;
-    doc.text(`• ${strategy}`, margin + 5, currentY);
-  });
-  
-  // Footer
   doc.setFontSize(10);
-  doc.setTextColor(100, 100, 100);
-  doc.text("Tes Gaya Belajar | Ruang Edukasi", margin, 280);
-  doc.text("www.ruangedukasi.web.id", pageWidth - margin, 280, { align: 'right' });
+  doc.setTextColor(60, 60, 60);
+  
+  let bulletY = currentY + 25;
+  dominantStyle.traits.forEach((trait, index) => {
+    const bulletText = `• ${trait}`;
+    const traitLines = doc.splitTextToSize(bulletText, contentWidth - 15);
+    doc.text(traitLines, margin + 5, bulletY);
+    bulletY += traitLines.length * 6;
+  });
+  
+  // Strategies section
+  currentY += 90;
+  doc.setFillColor(255, 255, 255);
+  doc.roundedRect(margin, currentY, contentWidth, 80, 3, 3, 'F');
+  doc.setLineWidth(0.1);
+  doc.setDrawColor(200, 200, 200);
+  doc.roundedRect(margin, currentY, contentWidth, 80, 3, 3, 'S');
+  
+  // Section title with color bar
+  doc.setFillColor(...colorMap[result.dominantStyle]);
+  doc.rect(margin, currentY, 8, 20, 'F');
+  
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(14);
+  doc.setTextColor(40, 40, 40);
+  doc.text("Rekomendasi Belajar:", margin + 12, currentY + 12);
+  
+  // Strategies bullets
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(10);
+  doc.setTextColor(60, 60, 60);
+  
+  bulletY = currentY + 25;
+  dominantStyle.strategies.forEach((strategy, index) => {
+    const bulletText = `• ${strategy}`;
+    const strategyLines = doc.splitTextToSize(bulletText, contentWidth - 15);
+    doc.text(strategyLines, margin + 5, bulletY);
+    bulletY += strategyLines.length * 6;
+  });
+  
+  // Footer with fancy border
+  doc.setFillColor(230, 236, 245);
+  doc.rect(0, 285, pageWidth, 12, 'F');
+  
+  doc.setFontSize(9);
+  doc.setTextColor(80, 80, 80);
+  doc.text("Tes Gaya Belajar | learn.ruangedukasi.com", margin, 292);
+  doc.text("© " + new Date().getFullYear() + " Ruang Edukasi", pageWidth - margin, 292, { align: 'right' });
   
   return doc.save("hasil-tes-gaya-belajar.pdf");
 };

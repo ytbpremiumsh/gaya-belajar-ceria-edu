@@ -1,22 +1,7 @@
 
 import React from 'react';
-import { 
-  ChartContainer, 
-  ChartLegendContent,
-  ChartTooltipContent
-} from '@/components/ui/chart';
 import { QuizResult } from '@/types';
 import { Eye, Headphones, Move } from 'lucide-react';
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  Cell,
-  LabelList
-} from 'recharts';
 import { Progress } from '@/components/ui/progress';
 
 interface ResultChartProps {
@@ -45,35 +30,29 @@ const ResultChart: React.FC<ResultChartProps> = ({ result }) => {
     }
   ];
 
-  const config = {
-    visual: {
-      label: 'Visual',
-      color: '#A7C7E7',
-      icon: () => <Eye className="h-4 w-4" />
-    },
-    auditory: {
-      label: 'Auditory',
-      color: '#E6E6FA',
-      icon: () => <Headphones className="h-4 w-4" />
-    },
-    kinesthetic: {
-      label: 'Kinesthetic',
-      color: '#FFD8BE',
-      icon: () => <Move className="h-4 w-4" />
+  const getIcon = (iconName: string) => {
+    switch (iconName) {
+      case 'eye': return <Eye className="h-3.5 w-3.5" />;
+      case 'headphones': return <Headphones className="h-3.5 w-3.5" />;
+      case 'move': return <Move className="h-3.5 w-3.5" />;
+      default: return null;
     }
   };
 
   return (
     <div className="w-full">
-      <h3 className="text-xl font-semibold mb-4">Distribusi Gaya Belajar</h3>
-      <div className="bg-white/50 p-4 rounded-xl shadow-sm backdrop-blur-sm">
-        <div className="space-y-3">
+      <h3 className="text-lg font-semibold mb-3">Distribusi Gaya Belajar</h3>
+      <div className="bg-white/50 p-3 rounded-xl shadow-sm backdrop-blur-sm">
+        <div className="space-y-2">
           {data.map((item) => (
-            <div key={item.name} className="flex items-center gap-3">
-              <div className="min-w-[80px] text-sm font-medium">{item.name}</div>
+            <div key={item.name} className="flex items-center gap-2">
+              <div className="flex items-center justify-center p-1 rounded-full" style={{ backgroundColor: `${item.color}50` }}>
+                {getIcon(item.icon)}
+              </div>
+              <div className="min-w-[60px] text-xs font-medium">{item.name}</div>
               <div className="flex-1">
                 <Progress 
-                  className="h-2.5" 
+                  className="h-2" 
                   value={item.value} 
                   style={{
                     backgroundColor: `${item.color}30`,
@@ -83,7 +62,7 @@ const ResultChart: React.FC<ResultChartProps> = ({ result }) => {
                   <div className="h-full bg-opacity-70" style={{ backgroundColor: item.color }}></div>
                 </Progress>
               </div>
-              <div className="min-w-[36px] text-right font-semibold">{item.value}%</div>
+              <div className="min-w-[30px] text-right text-xs font-semibold">{item.value}%</div>
             </div>
           ))}
         </div>
