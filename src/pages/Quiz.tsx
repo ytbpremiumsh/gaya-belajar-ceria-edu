@@ -76,7 +76,7 @@ const Quiz = () => {
       <QuizProgress progress={progress} currentQuestion={currentQuestion} totalQuestions={totalQuestions} />
       
       <div className="bg-white rounded-xl shadow-md p-6 md:p-8 my-8">
-        <h2 className="text-xl md:text-2xl font-semibold mb-6">
+        <h2 className="text-lg md:text-xl font-semibold mb-6">
           {question.question}
         </h2>
         
